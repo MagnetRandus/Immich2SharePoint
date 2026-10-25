@@ -44,3 +44,45 @@ The test suite uses only invented data and the Python standard library:
 python3 -m unittest discover -s tests
 python3 scripts/security_scan.py --tracked
 ~~~
+
+## SharePoint provisioning on comfycrocs
+
+Provisioning is performed manually with
+[`provisioning/Provision-SharePoint.ps1`](provisioning/Provision-SharePoint.ps1).
+It creates only the **Photos** document library and **Photo Metadata** list from
+the reviewed schema. It never uploads media or metadata, deletes resources, or
+changes an incompatible existing field.
+
+Prerequisites on comfycrocs are PowerShell 7.4 or later, PnP.PowerShell, and an
+approved Entra ID application with permission to manage lists on the target
+site. Install and authentication setup are separate administrator-reviewed
+steps; the repository does not install modules or contain credentials.
+
+Keep the real site URL and Entra client ID outside Git, for example in protected
+session environment variables. PnP.PowerShell requires a caller-owned client ID
+for interactive authentication. First run the read-only default mode and review
+every reported action:
+
+~~~sh
+pwsh ./provisioning/Provision-SharePoint.ps1 \
+  -SiteUrl "$I2SP_SHAREPOINT_SITE_URL" \
+  -ClientId "$ENTRAID_APP_ID"
+~~~
+
+For a headless session, add `-DeviceLogin`. Dry-run connects to read the existing
+schema but makes no SharePoint changes. It reports compatible, missing, and
+incompatible definitions without printing the site URL or credentials.
+
+Only after reviewing the dry-run and receiving explicit deployment approval,
+apply missing resources by adding `-Apply`:
+
+~~~sh
+pwsh ./provisioning/Provision-SharePoint.ps1 \
+  -SiteUrl "$I2SP_SHAREPOINT_SITE_URL" \
+  -ClientId "$ENTRAID_APP_ID" \
+  -Apply
+~~~
+
+`-Apply` creates missing containers and columns. Existing incompatible settings
+remain unchanged and stop the run for manual review. Never save real parameter
+values, command output, or authentication material in the repository.
