@@ -1,0 +1,14 @@
+{
+  "immich": {
+    "base_url": "https://immich.example.invalid",
+    "api_key": "placeholder-immich-api-key"
+  },
+  "sharepoint": {
+    "site_url": "https://sharepoint.example.invalid/sites/archive",
+    "tenant_id": "00000000-0000-4000-8000-000000000001",
+    "client_id": "00000000-0000-4000-8000-000000000002",
+    "client_secret": "placeholder-sharepoint-client-secret",
+    "photos_library": "Photos",
+    "metadata_list": "Photo Metadata"
+  }
+}

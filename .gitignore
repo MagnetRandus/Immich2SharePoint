@@ -28,6 +28,8 @@ id_ed25519*
 *client_secret*.json
 *service-account*.json
 config.local.*
+# Canonical developer configuration (contains real connection settings).
+config.local.json
 settings.local.*
 *.local.json
 *.local.yaml
