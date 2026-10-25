@@ -1,0 +1,4 @@
+#!/bin/sh
+# Enable for this clone: git config --local core.hooksPath .githooks
+set -eu
+python3 scripts/security_scan.py --staged
